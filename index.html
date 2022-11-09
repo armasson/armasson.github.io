@@ -1,1 +1,118 @@
-Hello world
+<html lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <main>
+        <h1>Testing Deeplink methods</h1>
+
+        <section>
+            <div>
+                <label for="url">URL used</label>
+                <input id="url" type="text" value="https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin" />
+                <button data-type="setURL" data-value="lumapps://app-mobile/organizations/4664706704080896/signin">Set IOS intent URL</button>
+                <button data-type="setURL" data-value="intent://apps.lumapps.link/lumapps/?link=https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin&apn=com.lumapps.android&amv=3601&afl=https://play.google.com/store/apps/details?id%3Dcom.lumapps.android#Intent;package=com.google.android.gms;action=com.google.firebase.dynamiclinks.VIEW_DYNAMIC_LINK;scheme=https;S.browser_fallback_url=https://play.google.com/store/apps/details%3Fid%3Dcom.lumapps.android;end">Set Android intent URL</button>
+                <button data-type="setURL" data-value="https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin">Set Login URL</button>
+                <script>
+                    document.querySelectorAll('button[data-type="setURL"]').forEach(button => {
+                        button.addEventListener('click', () => {
+                            document.querySelector('#url').value = button.getAttribute('data-value');
+                            document.querySelector('#link').setAttribute('href', button.getAttribute('data-value'));
+                        });
+                    })
+
+                </script>
+            </div>
+            <div>
+                <label for="storeURL">Store URL</label>
+                <input id="storeURL" value="https://apps.apple.com/us/app/lumapps/id1237675892"/>
+                <button onclick="document.querySelector('#storeURL').value ='https://play.google.com/store/apps/details'">Set Android store URL</button>
+                <button onclick="document.querySelector('#storeURL').value ='https://apps.apple.com/us/app/lumapps/id1237675892'">Set iOS store URL</button>
+            </div>
+            <div>
+                <label for="timeout">Timeout</label>
+                <input id="timeout" type="number" value="1000" />
+            </div>
+            <script>
+                const urlInput = document.querySelector('#url');
+                const timeout = document.querySelector('#timeout');
+                const storeInput = document.querySelector('#storeURL');
+
+                window.fallbackTimeout;
+                window.setFallback = () => {
+                    window.fallbackTimeout = setTimeout(() => {
+
+                        const p = document.createElement('p');
+                        p.textContent = 'timeout';
+                        document.body.appendChild(p);
+                        window.location.href = storeInput.value;
+
+                    }, Number(timeout.value));
+                };
+
+                /**
+                 *
+                 * */
+                document.addEventListener("visibilitychange", () => {
+                    if (document.visibilityState === 'hidden') {
+                        clearTimeout(window.fallbackTimeout);
+                    }
+                });
+                window.addEventListener("pagehide", () => {
+                    clearTimeout(window.fallbackTimeout);
+                });
+            </script>
+        </section>
+        <section>
+            <h2>Direct link </h2>
+
+            <a id="link" href="https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin">Deeplink with direct link</a>
+
+            <script>
+                const link = document.querySelector('#link');
+
+                urlInput.addEventListener('input', () => {
+                    link.setAttribute('href', urlInput.value);
+                });
+
+                link.addEventListener('click', () => {
+                    window.setFallback();
+                });
+            </script>
+        </section>
+        <section>
+            <h2>Button action</h2>
+            <button id="buttonAction" type="button">Button action</button>
+            <script>
+                document.querySelector('#buttonAction').addEventListener('click', () => {
+                    window.location.href = urlInput.value;
+                    window.setFallback();
+                });
+            </script>
+        </section>
+        <section>
+            <h2>Iframe </h2>
+
+            <button id="iframeBtn" type="button">Deeplink with iframe</button>
+            <script>
+                const iframeBtn = document.getElementById('iframeBtn');
+
+                iframeBtn.addEventListener('click', () => {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+
+
+                    window.setFallback();
+
+                    iframe.onload = () => {
+                        clearTimeout(window.fallbackTimeout);
+                    };
+
+                    iframe.src = urlInput.value;
+                });
+            </script>
+        </section>
+    </main>
+
+
+
+</html>
