@@ -1,1 +1,49 @@
-Hello world
+<html lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <main>
+        <h1>Testing Deeplink methods</h1>
+
+        <section>
+            <div>
+                <label for="urlInput">URL used</label>
+                <input id="urlInput" type="text"  />
+            </div>
+            <div>
+                <label for="storeInput">Store URL</label>
+                <input id="storeInput"/>
+            </div>
+            <div>
+                <label for="timeoutInput">Timeout</label>
+                <input id="timeoutInput" type="number" value="250" />
+            </div>
+        </section>
+        <section>
+            <h2>Sign in </h2>
+            <a id="linkToSignIn" href="https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin">https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin</a>
+        </section>
+        <section>
+            <h2>Get installed app</h2>
+            <a id="getInstalledApp" href="https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin">With get installed app</a>
+        </section>
+        <section>
+            <h2>Direct link </h2>
+            <a id="directLink" href="https://login.lumapps.com/app-mobile/organizations/4664706704080896/signin">Deeplink with direct link</a>
+        </section>
+        <section>
+            <h2>Button action</h2>
+            <button id="actionBtn" type="button">Button action</button>
+        </section>
+        <section>
+            <h2>Iframe </h2>
+            <button id="iframeBtn" type="button">Deeplink with iframe</button>
+        </section>
+        <section>
+            <h2>Test with fetch</h2>
+            <button id="fetchBtn" type="button">Link with pre-fetch</button>
+        </section>
+    </main>
+
+    <script src="index.js"></script>
+
+</html>
